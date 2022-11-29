@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { lastValueFrom } from 'rxjs';
+import { delay, lastValueFrom } from 'rxjs';
 
 interface QuizFromWeb {
   name: string;
@@ -23,7 +23,7 @@ export class QuizService {
     const quizzesFromWeb = lastValueFrom(
       this.angularHttpClient.get<QuizFromWeb[]>(
       "https://modern-js.azurewebsites.net/api/HttpTriggerJS1?code=8XD3vN3ehHLdZacBQJQhgUnNst9202gdd5VM3kWCytDkz2nXhia6kA==&name=Mystery%20Quiz"
-      )
+      ).pipe(delay(5000))
     );
 
     return quizzesFromWeb;
