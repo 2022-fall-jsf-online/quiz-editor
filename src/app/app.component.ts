@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService, QuizFromWeb } from './quiz.service';
+import { 
+  trigger,
+  transition,
+  animate,
+  style,
+  keyframes
+} from '@angular/animations';
 
 interface QuizDisplay {
   quizName: string;
@@ -16,7 +23,29 @@ interface QuestionDisplay {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+    animations: [
+    trigger('detailsFromLeft', [
+      transition('leftPosition => finalPosition', [
+        animate('300ms', keyframes([
+          style({ marginLeft: '-30px', offset: 0.0 }),
+          style({ marginLeft: '-20px', offset: 0.25 }),
+          style({ marginLeft: '-10px', offset: 0.5 }),
+          style({ marginLeft: '-5px', offset: 0.75 }),
+          style({ marginLeft: '0px', offset: 1.0 })
+        ]))
+      ]),
+    ]),
+    trigger('pulseSaveCancelButtons', [
+      transition('nothingToSave => somethingToSave', [
+        animate('400ms', keyframes([
+          style({ transform: 'scale(1.0)', 'transform-origin': 'top left', offset: 0.0 }),
+          style({ transform: 'scale(1.2)', 'transform-origin': 'top left', offset: 0.5 }),
+          style({ transform: 'scale(1.0)', 'transform-origin': 'top left', offset: 1.0 })
+        ]))
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
@@ -69,6 +98,7 @@ export class AppComponent implements OnInit {
   selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
+    this.detailsFromLeftAnimationState = "finalPosition";
   };
 
   addNewQuiz = () => {
@@ -194,4 +224,10 @@ export class AppComponent implements OnInit {
   get editedQuizCount() {
     return this.getEditedQuizzes().length;
   }
+
+  detailsFromLeftAnimationState = "leftPosition";
+
+  detailsFromLeftAnimationDone = () => {
+    this.detailsFromLeftAnimationState = "leftPosition";
+  };
 }
