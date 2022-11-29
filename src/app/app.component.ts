@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     public quizSvc: QuizService
   ) {
   }
-
+  loadingPage = false;
   errorLoadingQuizzes = false;
 
   loadQuizzesFromCloud = async () => {
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
       console.log(quizzes);
 
+      this.loadingPage = true;
       this.quizzes = quizzes.map(x => ({
         quizName: x.name
         , quizQuestions: x.questions.map(y => ({
