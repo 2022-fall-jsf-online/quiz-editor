@@ -3,9 +3,17 @@
     <div class="col-md-4">
       <!-- fill in button. (element) btn.mt3 (. for spaces) class (button marginTop3 & bottom) & then push Tab -->
       <button class="btn btn-outline-success mt-3 mb-3">Add New Quiz</button>
+     
       <div class="card">
-        <div class="card-header">Quiz List</div>
-        <div class="card-body">Coming Soon..</div>
+        <!-- flush won't draw double borders around it & action lets it color on hover -->
+        <div class="list-group list-group-flush">
+          <button 
+            class="list-group-item list-group-item-action"
+            *ngFor="let q of quizzes"
+          >
+            {{ q.quizName }}
+          </button>
+        </div>
       </div>
     </div>
     <div class="col-md-8">
