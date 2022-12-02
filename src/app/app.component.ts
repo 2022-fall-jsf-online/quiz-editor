@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService, QuizFromWeb, ShapeForSavingNewQuizzes, ShapeForSavingEditedQuizzes } from './quiz.service';
-
 import { 
   trigger
   , style
@@ -48,6 +47,9 @@ interface QuestionDisplay {
     ])
   ]
 })
+
+
+
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
 
@@ -235,12 +237,7 @@ export class AppComponent implements OnInit {
   saveQuizzes = async () => {
     try {
 
-      const newQuizzes: ShapeForSavingNewQuizzes[] = this.getAddedQuizzes().map(x => ({
-        quiz: x.quizName
-        , quizQuestions: x.quizQuestions.map(y => y.questionName)
-      }));
-
-
+      const newQuizzes: ShapeForSavingNewQuizzes[] = [];
       const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
         quiz: x.quizName
         , questions: x.quizQuestions.map(y => ({
