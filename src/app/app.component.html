@@ -8,10 +8,12 @@
         <!-- flush won't draw double borders around it & action lets it color on hover -->
         <div class="list-group list-group-flush">
           <!-- d-flex is for Flex layout -- Pixel Perfect?? is align items center -->
+          <!-- [class.active] - if class is active (true) show active (highlighted) -->
           <button 
             class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
             *ngFor="let q of quizzes"
             (click)="selectQuiz(q)"
+            [class.active]="q === selectedQuiz"
           >
             <!-- get variable -->
             {{ q.quizName }}
@@ -22,14 +24,16 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8"
+      *ngIf="selectedQuiz != undefined"
+    >
       <div>
         <button class="btn btn-outline-dark mt-3 mb-3">Save</button>
         <button class="btn btn-link">Cancel</button>
       </div>
       <div class="card">
         <div class="card-header">General</div>
-        <div class="card-body">Coming Soon..</div>
+        <div class="card-body">{{ selectedQuiz.quizName }}</div>
       </div>
       <div class="card mt-3">
         <div class="card-header">Questions</div>
@@ -39,6 +43,17 @@
         <div class="card-header">Other</div>
         <div class="card-body">Coming Soon..</div>
       </div>
+    </div>
+    <div 
+      class="col-md-8 mt-3"
+      *ngIf="selectedQuiz === undefined"  
+    >
+      <div class="card bg-light text-center">
+        <h2>No Quiz Selected</h2>
+        <p>Select or add a new quiz</p>
+      </div>
+      
+
     </div>
   </div>
 </div>
