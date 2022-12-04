@@ -7,11 +7,15 @@
       <div class="card">
         <!-- flush won't draw double borders around it & action lets it color on hover -->
         <div class="list-group list-group-flush">
+          <!-- d-flex is for Flex layout -- Pixel Perfect?? is align items center -->
           <button 
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
             *ngFor="let q of quizzes"
           >
             {{ q.quizName }}
+            <small class="font-itallic font-weight lighter">
+              {{ q.quizQuestions.length }} questions
+            </small>
           </button>
         </div>
       </div>
