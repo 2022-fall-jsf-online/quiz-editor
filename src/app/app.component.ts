@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
 
     //x is already qualified but y is not
     //we have to qualify y as any type object and put in () for this
+    // x = quiz obj
     this.quizzes = quizzes.map(x => ({
       quizName: x.name
       , quizQuestions: x.questions.map((y: any) => ({
@@ -44,8 +45,8 @@ export class AppComponent implements OnInit {
     console.log(this.quizzes);
   }
 
+  // Global Vars
   quizzes: QuizDisplay[] = [];
-
   selectedQuiz: QuizDisplay | undefined = undefined;
 
   selectQuiz = (q: QuizDisplay) => {
@@ -54,12 +55,28 @@ export class AppComponent implements OnInit {
   }
 
   editedQuizName = "";
-  updateQuizName = () => {
-
-  };
+  
 
   addNewQuiz = () => {
+    //need new quiz var/obj
+    const newQuiz = {
+      quizName: "Untitled Quiz"
+      , quizQuestions: []
+    }
 
+    //update quizzes to array of current + newQuiz
+    this.quizzes = [
+      ...this.quizzes
+      , newQuiz
+    ]
+
+    //update selectedQuiz to newQuiz
+    this.selectedQuiz = newQuiz;
+  }
+
+
+  updateQuizName = () => {
+    this.selectedQuiz.quizName = this.editedQuizName;
   };
   
 }
