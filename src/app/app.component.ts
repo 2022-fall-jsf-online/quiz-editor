@@ -53,4 +53,13 @@ export class AppComponent implements OnInit {
     console.log(this.selectedQuiz);
   }
 
+  editedQuizName = "";
+  updateQuizName = () => {
+
+  };
+
+  addNewQuiz = () => {
+
+  };
+  
 }

@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-md-4">
       <!-- fill in button. (element) btn.mt3 (. for spaces) class (button marginTop3 & bottom) & then push Tab -->
-      <button class="btn btn-outline-success mt-3 mb-3">Add New Quiz</button>
+      <button class="btn btn-outline-success mt-3 mb-3"
+        (click)="addNewQuiz()"
+      >Add New Quiz</button>
      
       <div class="card">
         <!-- flush won't draw double borders around it & action lets it color on hover -->
@@ -28,12 +30,18 @@
       *ngIf="selectedQuiz != undefined"
     >
       <div>
-        <button class="btn btn-outline-dark mt-3 mb-3">Save</button>
+        <button class="btn btn-outline-dark mt-3 mb-3"
+          (click)="updateQuizName()"
+        >Save</button>
         <button class="btn btn-link">Cancel</button>
       </div>
       <div class="card">
         <div class="card-header">General</div>
-        <div class="card-body">{{ selectedQuiz.quizName }}</div>
+        <div class="card-body">
+          <input type="text" 
+          [(ngModal)]={{ selectedQuiz.quizName }}
+          class="form-control">
+        </div>
       </div>
       <div class="card mt-3">
         <div class="card-header">Questions</div>
