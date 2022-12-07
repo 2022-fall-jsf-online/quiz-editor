@@ -24,12 +24,18 @@ export class AppComponent implements OnInit {
   ) {
   }
 
+  //initially set to true until API call to loadQuizzes is completed 
+  loadingState = true;
   errorLoadingQuizzes = false;
 
+
+  // API response will not be stored inside quizzes until the request is complete,
+  // Allowing a flag to be placed immediately after the data is stored to signify the content is ready
   loadQuizzesFromCloud = async () => {
 
     try {
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
+      this.loadingState = false;
       console.log(quizzes);
 
       this.quizzes = quizzes.map(x => ({
@@ -43,6 +49,7 @@ export class AppComponent implements OnInit {
     catch (err) {
       console.error(err);
       this.errorLoadingQuizzes = true;      
+      this.loadingState = false;
     }
   };
 
