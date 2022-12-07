@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
   ) {
   }
 
+  errorLoadingQuiz = false;
+
   ngOnInit() {
     const quizzes = this.quizSvc.loadQuizzes();
     console.log(quizzes);
@@ -43,7 +45,8 @@ export class AppComponent implements OnInit {
         }));
       }
       , err => {
-        console.error(err);
+        console.error(err.error);
+        this.errorLoadingQuiz = true;
       }
 
     );
