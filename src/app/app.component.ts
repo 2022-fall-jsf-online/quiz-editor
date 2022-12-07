@@ -32,8 +32,8 @@ export class AppComponent implements OnInit {
 
     //Observables must be subscribed too
     // Data represents QuizFromWeb[]
-    quizzes.subscribe( 
-      data => {
+    quizzes.subscribe({
+      next: data => {
         console.log(data);
         this.quizzes = data.map(x => ({
           quizName: x.name
@@ -44,13 +44,13 @@ export class AppComponent implements OnInit {
 
         }));
       }
-      , err => {
+      , error: err => {
         console.error(err.error);
         this.errorLoadingQuiz = true;
       }
 
-    );
-  
+    });
+
 
   }
 
