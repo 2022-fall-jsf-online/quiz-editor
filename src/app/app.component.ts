@@ -50,6 +50,11 @@ export class AppComponent implements OnInit {
     }
   };
 
+  cancelChanges = () => { 
+    this.loadQuizzesFromCloud
+    this.selectedQuiz = undefined;
+  }
+
   ngOnInit() {
     this.loadQuizzesFromCloud();
   }
