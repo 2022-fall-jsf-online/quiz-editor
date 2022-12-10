@@ -49,12 +49,13 @@ export class AppComponent implements OnInit {
   quizzes: QuizDisplay[] = [];
   selectedQuiz: QuizDisplay | undefined = undefined;
 
+
   selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
   }
 
-  editedQuizName = "";
+  
   
 
   addNewQuiz = () => {
@@ -74,9 +75,9 @@ export class AppComponent implements OnInit {
     this.selectedQuiz = newQuiz;
   }
 
-
+  editedQuizName = "";
   updateQuizName = () => {
-    this.selectedQuiz.quizName = this.editedQuizName;
+    // this.selectedQuiz.quizName = this.editedQuizName;
   };
   
 }
