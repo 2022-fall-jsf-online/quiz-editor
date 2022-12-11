@@ -8,9 +8,18 @@
         <div class="card">
           
           <button class="list-group-item 
-          list-group-item-action"
+          list-group-item-action
+          d-flex justify-content-between
+          align-items-center
+          "
           *ngFor="let q of quizzes"
+          
+          
           > {{q.quizName}}
+            <small class="font-itallic font-weight-lighter">
+              {{q.quizQuestions.length}} Questions
+            </small>
+
         </button>
       </div>
       </div>
