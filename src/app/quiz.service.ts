@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
 
+//make shape so we don't need to use Any type
+interface QuizFromWeb {
+  name: string;
+  questions: {
+    name: string;
+  }[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +17,7 @@ export class QuizService {
 
   loadQuizzes = () => {
 
-    const quizzesFromWeb: any[] = [
+    const quizzesFromWeb: QuizFromWeb[] = [
       {
         name: 'Quiz 1'
         , questions: [
