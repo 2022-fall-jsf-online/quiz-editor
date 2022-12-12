@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public quizSvc: QuizService
-  ) {
+  ) { 
   }
 
   loading = true;
@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
   loadQuizzesFromCloud = async () => {
 
     try {
+      //null co-el-lessing operator
+      //can't be undefined - - if so, it will evaluate to empty array
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
       console.log(quizzes);
 
