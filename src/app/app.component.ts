@@ -5,8 +5,8 @@ interface QuizDisplay {
   quizName: string;
   quizQuestions: QuestionDisplay[];
   markedForDelete: boolean;
-  newlyAddedQuiz: boolean;
-  naiveQuizChecksum: string;
+  // newlyAddedQuiz: boolean;
+  // naiveQuizChecksum: string;
 }
 
 interface QuestionDisplay {
@@ -23,21 +23,15 @@ export class AppComponent implements OnInit {
 
   constructor(
     public quizSvc: QuizService
-  ) { 
+  ) {
   }
 
   loading = true;
   errorLoadingQuizzes = false;
 
-  generateNaiveQuizChecksum = (quiz: QuizFromWeb) => {
-    return quiz.name + quiz.questions.map(x => '~' + x.name).join('');
-  };
-
   loadQuizzesFromCloud = async () => {
 
     try {
-      //null co-el-lessing operator
-      //can't be undefined - - if so, it will evaluate to empty array
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
       console.log(quizzes);
 
@@ -47,8 +41,6 @@ export class AppComponent implements OnInit {
           questionName: y.name
         }))
         , markedForDelete: false
-        , newlyAddedQuiz: false
-        , naiveQuizChecksum: this.generateNaiveQuizChecksum(x)
       }));      
 
       this.loading = false;
@@ -79,8 +71,6 @@ export class AppComponent implements OnInit {
       quizName: "Untitled Quiz"
       , quizQuestions: []
       , markedForDelete: false
-      , newlyAddedQuiz: true
-      , naiveQuizChecksum: ""
     };
 
     this.quizzes = [
@@ -164,36 +154,10 @@ export class AppComponent implements OnInit {
     }
   };
 
+
   cancelAllChanges = () => {
     this.loadQuizzesFromCloud();
     this.selectedQuiz = undefined;
-  };
-
-  getDeletedQuizzes = () => {
-    return this.quizzes.filter(x => x.markedForDelete);
-  };
-
-  get deletedQuizCount() {
-    return this.getDeletedQuizzes().length;
   }
 
-  getAddedQuizzes = () => {
-    return this.quizzes.filter(x => x.newlyAddedQuiz && !x.markedForDelete);
-  };
-
-  get addedQuizCount() {
-    return this.getAddedQuizzes().length;
-  }
-  
-  getEditedQuizzes = () => {
-    return this.quizzes.filter(x => 
-      x.quizName + x.quizQuestions.map(y => '~' + y.questionName).join('') !== x.naiveQuizChecksum
-      && !x.newlyAddedQuiz 
-      && !x.markedForDelete
-    );
-  };
-
-  get editedQuizCount() {
-    return this.getEditedQuizzes().length;
-  }
 }
