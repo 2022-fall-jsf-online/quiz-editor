@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { generate } from 'rxjs';
 import { QuizService, QuizFromWeb } from './quiz.service';
 
+
 interface QuizDisplay {
   quizName: string;
   quizQuestions: QuestionDisplay[];
