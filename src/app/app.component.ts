@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { generate } from 'rxjs';
 import { QuizService, QuizFromWeb } from './quiz.service';
+import { trigger, transition, animate, keyframes, style } from '@angular/animations'
 
 
 interface QuizDisplay {
@@ -20,7 +21,32 @@ interface QuestionDisplay {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  //style is position at 0% (0.0) 300ms to 100% (1.0) 300ms
+    //property for initial position/state (leftPosition)
+  //when property changes to final state (finalPosition), it will run animation (above)
+  animations: [
+    trigger('detailsFromLeft', [
+      transition('leftPosition => finalPosition', [
+        animate('300ms', keyframes([
+          style({ marginLeft: '-30px', offset: 0.0 }),
+          style({ marginLeft: '-20px', offset: 0.25 }),
+          style({ marginLeft: '-10px', offset: 0.5 }),
+          style({ marginLeft: '-5px', offset: 0.75 }),
+          style({ marginLeft: '0px', offset: 1.0 })
+        ]))
+      ]),
+    ]),
+    trigger('pulseSaveCancelButtons', [
+      transition('nothingToSave => somethingToSave', [
+        animate('400ms', keyframes([
+          style({ transform: 'scale(1.0)', 'transform-origin': 'top left', offset: 0.0 }),
+          style({ transform: 'scale(1.2)', 'transform-origin': 'top left', offset: 0.5 }),
+          style({ transform: 'scale(1.0)', 'transform-origin': 'top left', offset: 1.0 })
+        ]))
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
@@ -77,6 +103,8 @@ export class AppComponent implements OnInit {
   selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
+    //run animation when you select quiz
+    this.detailsFromLeftAnimationState = "finalPosition";
   };
 
   addNewQuiz = () => {
@@ -211,4 +239,14 @@ export class AppComponent implements OnInit {
   get editedQuizCount() {
     return this.getEditedQuizzes().length;
   }
+
+  //property for initial position/state
+  //when property changes to final state, it will run animation (above)
+  detailsFromLeftAnimationState = "leftPosition";
+
+  //when function runs (when animation is complete from html) it will reset the state to leftPosition (so it can run again)
+  detailsFromLeftAnimationDone = () => {
+    this.detailsFromLeftAnimationState = "leftPosition";
+  }
+
 }
