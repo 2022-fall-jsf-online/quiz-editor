@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
 
   loading = true;
   errorLoadingQuizzes = false;
+  // deletedQuizCount = 0;
 
   loadQuizzesFromCloud = async () => {
 
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit {
   removeQuestion = (questionToRemove: QuestionDisplay) => {
     if (this.selectedQuiz) {
       this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(x => x !== questionToRemove);
+      // this.deletedQuizCount++;
     }
   };
 
@@ -160,4 +162,16 @@ export class AppComponent implements OnInit {
     this.selectedQuiz = undefined;
   }
 
+
+  getDeletedQuizzes = () => {
+    // all quizzes - filter x, where x == true
+    // gives array of QuizDisplay[]
+    return this.quizzes.filter(x => x.markedForDelete);
+  }
+
+  // ts getter/setter readOnly property
+  get deletedQuizCount() {
+    // runs this function (166) & get array length
+    return this.getDeletedQuizzes().length;
+  }
 }
