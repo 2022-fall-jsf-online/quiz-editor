@@ -37,6 +37,9 @@ interface QuestionDisplay {
         ]))
       ]),
     ]),
+    //trigger used in html
+    //transition to start animation
+    //style scale is size 
     trigger('pulseSaveCancelButtons', [
       transition('nothingToSave => somethingToSave', [
         animate('400ms', keyframes([
