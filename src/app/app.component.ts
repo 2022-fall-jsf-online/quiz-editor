@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { generate } from 'rxjs';
 import { QuizService, QuizFromWeb } from './quiz.service';
 
 interface QuizDisplay {
@@ -6,7 +7,9 @@ interface QuizDisplay {
   quizQuestions: QuestionDisplay[];
   markedForDelete: boolean;
   newlyAddedQuiz: boolean;
-  // naiveQuizChecksum: string;
+  // checksum = a way to validate data that is sent across the web - normally numbers
+  // can use to confirm if quiz has changed to find edited quiz
+  naiveQuizChecksum: string;
 }
 
 interface QuestionDisplay {
@@ -28,7 +31,13 @@ export class AppComponent implements OnInit {
 
   loading = true;
   errorLoadingQuizzes = false;
-  // deletedQuizCount = 0;
+  editedQuiz = false;
+
+  //take quizFromWeb (original) - use to compare to edited Quiz
+  generateNaiveQuizChecksum = (quiz: QuizFromWeb) => {
+    //creates a string of quiz name~questionName~questionName...
+    return quiz.name + quiz.questions.map(x => '~' + x.name).join('')
+  }
 
   loadQuizzesFromCloud = async () => {
 
@@ -36,6 +45,7 @@ export class AppComponent implements OnInit {
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
       console.log(quizzes);
 
+      //x = each quiz{}
       this.quizzes = quizzes.map(x => ({
         quizName: x.name
         , quizQuestions: x.questions.map(y => ({
@@ -43,6 +53,7 @@ export class AppComponent implements OnInit {
         }))
         , markedForDelete: false
         , newlyAddedQuiz: false
+        , naiveQuizChecksum: this.generateNaiveQuizChecksum(x)
       }));      
 
       this.loading = false;
@@ -74,6 +85,7 @@ export class AppComponent implements OnInit {
       , quizQuestions: []
       , markedForDelete: false
       , newlyAddedQuiz: true
+      , naiveQuizChecksum: ""
     };
 
     this.quizzes = [
@@ -183,5 +195,19 @@ export class AppComponent implements OnInit {
 
   get addedQuizCount() {
     return this.getAddedQuizzes().length;
+  }
+
+  getEditedQuizzes = () => {
+    //x = QuizDisplay - array of current quizzes, including new, deleted, edited
+    //compare to original x (quiz from web)
+    return this.quizzes.filter(x => 
+      x.quizName + x.quizQuestions.map(y => '~' + y.questionName).join('') !== x.naiveQuizChecksum
+      && !x.newlyAddedQuiz
+      && !x.markedForDelete
+    );
+  };
+
+  get editedQuizCount() {
+    return this.getEditedQuizzes().length;
   }
 }
