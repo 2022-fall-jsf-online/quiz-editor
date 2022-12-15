@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     public quizSvc: QuizService
   ) {
   }
-
+  stillLoading = true;
   errorLoadingQuizzes = false;
 
   loadQuizzesFromCloud = async () => {
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
         }))
         , markedForDelete: false
       }));      
+      this.stillLoading = false;
     }
     catch (err) {
       console.error(err);
@@ -106,10 +107,12 @@ export class AppComponent implements OnInit {
         console.log(n2); // ? ? ?
         
         n2.then(x => console.log(x)).catch(e => console.error(e));
+        this.stillLoading = false;
       }
     ).catch(
       err => {
         console.error(err);
+        this.stillLoading = false;
       }
     )
   };

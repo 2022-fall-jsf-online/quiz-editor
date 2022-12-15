@@ -1,4 +1,12 @@
 <div class="container">
+  <div
+  class="col-md-12"
+  *ngIf="stillLoading"
+  >
+  <div class="alert alert-danger mt-3">
+    Still loading! Please wait while data is being retrived from the Server!
+  </div>
+</div>
   <div 
     class="row"
     *ngIf="errorLoadingQuizzes"
@@ -11,7 +19,7 @@
   </div>
   <div 
     class="row"
-    *ngIf="!errorLoadingQuizzes"
+    *ngIf="!errorLoadingQuizzes && !stillLoading"
   >
     <div class="col-md-4">
       <button 
