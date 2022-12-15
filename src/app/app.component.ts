@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
       }))
     }));
 
-    console.log(this.quizzes);
+
   }
 
   quizzes: QuizDisplay[] = [];
@@ -45,4 +45,15 @@ export class AppComponent implements OnInit {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
   };
+
+  newQuiz: string = "";
+  newQuizQuestions = [];
+
+  addQuiz = () => {
+    this.quizzes.push({
+      quizName: this.newQuiz,
+      quizQuestions: this.newQuizQuestions
+    });
+    this.selectQuiz(this.quizzes[(this.quizzes.length)-1]);
+  }
 }
