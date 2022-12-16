@@ -1,7 +1,17 @@
 <div class="container">
   <div 
     class="row"
-    *ngIf="errorLoadingQuizzes"
+    *ngIf="quizzesLoading"
+  >
+    <div class="col-md-12">
+      <div class="alert alert-info mt-3">
+        Loading...
+      </div>
+    </div>
+  </div>
+  <div 
+    class="row"
+    *ngIf="errorLoadingQuizzes && !errorLoadingQuizzes"
   >
     <div class="col-md-12">
       <div class="alert alert-info mt-3">
@@ -11,7 +21,7 @@
   </div>
   <div 
     class="row"
-    *ngIf="!errorLoadingQuizzes"
+    *ngIf="!errorLoadingQuizzes && !quizzesLoading"
   >
     <div class="col-md-4">
       <button 

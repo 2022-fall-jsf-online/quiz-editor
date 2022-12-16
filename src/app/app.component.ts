@@ -26,11 +26,14 @@ export class AppComponent implements OnInit {
 
   errorLoadingQuizzes = false;
 
+  quizzesLoading = true;
+
   loadQuizzesFromCloud = async () => {
 
     try {
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
       console.log(quizzes);
+      this.quizzesLoading = false;
 
       this.quizzes = quizzes.map(x => ({
         quizName: x.name
@@ -42,7 +45,8 @@ export class AppComponent implements OnInit {
     }
     catch (err) {
       console.error(err);
-      this.errorLoadingQuizzes = true;      
+      this.errorLoadingQuizzes = true;
+      this.quizzesLoading = false;      
     }
   };
 
