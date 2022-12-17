@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { QuizService, QuizFromWeb } from './quiz.service';
+import { QuizService, QuizFromWeb, ShapeForSavingEditedQuizzes, ShapeForSavingNewQuizzes } from './quiz.service';
 
 import {
   trigger, 
@@ -9,9 +9,9 @@ import {
   style
 } from '@angular/animations';
 
-interface QuizDisplay {
+interface QuizDisplay { 
   quizName: string;
-  quizQuestions: QuestionDisplay[];
+  quizQuestions: QuestionDisplay[]; // {questionName: string}
   markedForDelete: boolean;
   newlyAddedQuiz: boolean;
   naiveQuizChecksum: string;
@@ -230,5 +230,32 @@ export class AppComponent implements OnInit {
 
   detailsFromLeftAnimationDone = () => {
     this.detailsFromLeftAnimationState = "leftPosition";
+  };
+
+  saveQuizzes =  async () => {
+    try {
+      const newQuizzes: ShapeForSavingNewQuizzes[] = this.getAddedQuizzes().map(x => ({
+        quizName: x.quizName,
+        quizQuestions: x.quizQuestions.map(y => 
+          question: y.questionName
+        )
+      }));
+      const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
+        quiz: x.quizName,
+        questions: x.quizQuestions.map(y => ({
+          question: y.questionName
+        }))
+      })); 
+
+      const numberOfUpdatedQuizzes = await this.quizSvc.saveQuizzes(
+        editedQuizzes,
+        newQuizzes
+      );
+
+      console.log("numberOfUpdatedQuizzes", numberOfUpdatedQuizzes);
+    }
+    catch (err) {
+      console.error(err);
+    }
   };
 }
